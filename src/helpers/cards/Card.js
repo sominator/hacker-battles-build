@@ -4,7 +4,7 @@ export default class Card {
 
     this.render = (x, y, type) => {
 
-      let card = scene.add.image(x, y, this.sprite).setScale(0.3, 0.3).setInteractive();
+      let card = scene.add.image(x, y, this.sprite).setScale(0.25, 0.25).setInteractive();
 
       scene.input.setDraggable(card);
 
@@ -30,8 +30,20 @@ export default class Card {
               scene.playerBVariables += gameObject.data.values.variables;
             }
 
+            if (gameObject.data.values.type === 'playerACard') {
+              scene.playerAProgram.push(scene.playerAHand.shift());
+            } else {
+              scene.playerBProgram.push(scene.playerBHand.shift());
+            }
+
         },
         onExecute: function () {
+
+          if (this.type === "playerACard" && scene.playerABPActive) {
+            scene.playerABP += this.bp;
+          } else if (this.type === "playerBCard" && scene.playerBBPActive) {
+            scene.playerBBP += this.bp;
+          }
 
         }
       });

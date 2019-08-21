@@ -14,11 +14,11 @@ export default class Game extends Phaser.Scene {
 
   preload() {
 
-    this.load.image('card', "src/assets/Entromancy_HackerBattles_Back.png");
-    this.load.image('boolean', "src/assets/Entromancy_HackerBattles_Boolean.png");
-    this.load.image('double', "src/assets/Entromancy_HackerBattles_Double.png");
-    this.load.image('host', "src/assets/Entromancy_HackerBattles_Host.png");
-    this.load.image('ping', "src/assets/Entromancy_HackerBattles_Ping.png");
+    this.load.image('card', "src/assets/Card-Back.png");
+    this.load.image('boolean', "src/assets/Boolean.png");
+    this.load.image('double', "src/assets/Double.png");
+    this.load.image('host', "src/assets/Host.png");
+    this.load.image('ping', "src/assets/Ping.png");
 
   }
 
@@ -28,6 +28,8 @@ export default class Game extends Phaser.Scene {
     this.deckHandler = new DeckHandler(this);
     this.playerAHand = [];
     this.playerBHand = [];
+    this.playerAProgram = [];
+    this.playerBProgram = [];
     this.playerAYard = [];
     this.playerBYard = [];
     this.turnOrder = 0; //tracks number of turns, with a maximum of 10 turns per round
@@ -126,7 +128,7 @@ export default class Game extends Phaser.Scene {
 
       if (gameObjects[0].data.values.type === 'playerACard' || gameObjects[0].data.values.type === 'playerBCard') {
 
-        gameObjects[0].setScale(0.5, 0.5);
+        gameObjects[0].setScale(0.4, 0.4);
 
         self.children.bringToTop(gameObjects[0]);
 
@@ -145,11 +147,11 @@ export default class Game extends Phaser.Scene {
 
         if (gameObjects[0].data.values.played === true) {
 
-          gameObjects[0].setScale(0.23, 0.23);
+          gameObjects[0].setScale(0.19, 0.19);
 
         } else {
 
-          gameObjects[0].setScale(0.3, 0.3);
+          gameObjects[0].setScale(0.25, 0.25);
 
         }
 
@@ -174,7 +176,7 @@ export default class Game extends Phaser.Scene {
 
       gameObject.setTint(0x00ffff);
       this.children.bringToTop(gameObject);
-      gameObject.setScale(0.5, 0.5);
+      gameObject.setScale(0.19, 0.19);
 
     }, this);
 
@@ -186,7 +188,7 @@ export default class Game extends Phaser.Scene {
 
         gameObject.x = gameObject.input.dragStartX;
         gameObject.y = gameObject.input.dragStartY;
-        gameObject.setScale(0.3, 0.3);
+        gameObject.setScale(0.25, 0.25);
 
       }
 
@@ -198,17 +200,11 @@ export default class Game extends Phaser.Scene {
 
         gameObject.x = dropZone.x;
         gameObject.y = dropZone.y;
-        gameObject.setScale(0.23, 0.23);
+        gameObject.setScale(0.19, 0.19);
         gameObject.setData("played", true);
+        dropZone.setData("active", true);
         gameObject.data.values.onCompile(dropZone, gameObject);
-        dropZone.setData({
-          active: true,
-          name: gameObject.data.values.name,
-          description: gameObject.data.values.description,
-          bp: gameObject.data.values.bp,
-          variables: gameObject.data.values.variables,
-          onExecute: gameObject.data.values.onExecute
-        });
+
       }
 
       else {
@@ -237,12 +233,22 @@ export default class Game extends Phaser.Scene {
 
       for (let i = 0; i < 5; i++) {
 
-        self.playerAYard.push(self.playerAHand.shift());
-        self.playerBYard.push(self.playerBYard.shift());
+        self.playerAProgram[i].data.values.onExecute();
+        self.playerBProgram[i].data.values.onExecute();
 
       }
-      
+
+
+      for (let i = 0; i < 5; i++) {
+
+
+        self.playerAYard.push(self.playerAProgram.shift().setPosition(-80, -80));
+        self.playerBYard.push(self.playerBProgram.shift().setPosition(-80, -80));
+
+      }
+
       self.gameState = "Execute";
+      self.turnOrder = 0;
 
     });
 
