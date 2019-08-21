@@ -35,7 +35,7 @@ export default class Card {
 
         }
       });
-
+      return card;
     }
 
   }

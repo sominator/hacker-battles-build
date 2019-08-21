@@ -235,6 +235,13 @@ export default class Game extends Phaser.Scene {
 
     this.executeText.on('pointerdown', function (pointer, gameObject) {
 
+      for (let i = 0; i < 5; i++) {
+
+        self.playerAYard.push(self.playerAHand.shift());
+        self.playerBYard.push(self.playerBYard.shift());
+
+      }
+      
       self.gameState = "Execute";
 
     });
