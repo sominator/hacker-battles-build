@@ -8,6 +8,8 @@ export default class Card {
 
       scene.input.setDraggable(card);
 
+      let self = this;
+
       card.setData({
 
         name: this.name,
@@ -22,19 +24,37 @@ export default class Card {
         },
         onCompile: function (dropZone, gameObject) {
 
-            scene.turnOrder += 1;
+          self.compileEffect(gameObject);
 
-            if (dropZone.data.values.type === "playerASlot") {
+          scene.turnOrder += 1;
+
+          if (dropZone.data.values.type === "playerASlot") {
+
+            if (scene.variablesActive) {
+
               scene.playerAVariables += gameObject.data.values.variables;
-            } else if (dropZone.data.values.type === "playerBSlot") {
-              scene.playerBVariables += gameObject.data.values.variables;
+
             }
 
-            if (gameObject.data.values.type === 'playerACard') {
-              scene.playerAProgram.push(scene.playerAHand.shift());
-            } else {
-              scene.playerBProgram.push(scene.playerBHand.shift());
+          } else if (dropZone.data.values.type === "playerBSlot") {
+
+            if (scene.variablesActive) {
+
+              scene.playerBVariables += gameObject.data.values.variables;
+
             }
+
+          }
+
+          if (gameObject.data.values.type === 'playerACard') {
+
+            scene.playerAProgram.push(scene.playerAHand.shift());
+
+          } else {
+
+            scene.playerBProgram.push(scene.playerBHand.shift());
+
+          }
 
         },
         onExecute: function () {

@@ -19,6 +19,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('double', "src/assets/Double.png");
     this.load.image('host', "src/assets/Host.png");
     this.load.image('ping', "src/assets/Ping.png");
+    this.load.image('scrape', "src/assets/Scrape.png");
 
   }
 
@@ -249,6 +250,7 @@ export default class Game extends Phaser.Scene {
 
       self.gameState = "Execute";
       self.turnOrder = 0;
+      self.variablesActive = true;
 
     });
 
@@ -256,10 +258,11 @@ export default class Game extends Phaser.Scene {
 
   update() {
 
-    //continuously update player text
+    //continuously update text
 
     this.playerBText.text = ["BP: " + this.playerBBP, "Variables: " + this.playerBVariables];
     this.playerAText.text = ["BP: " + this.playerABP, "Variables: " + this.playerAVariables];
+    this.consoleText.text = this.consoleTextArray;
 
     //update game text display based on game state and number of turns completed
 
