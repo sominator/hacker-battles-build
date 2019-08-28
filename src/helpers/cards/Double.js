@@ -25,6 +25,24 @@ export default class Double extends Card {
 
       };
 
+      this.executeEffect = (gameObject) => {
+
+        if (gameObject.data.values.type === "playerACard") {
+
+          scene.playerABPMultiplier = scene.playerABPMultiplier * 2;
+
+          scene.consoleTextArray.push(">[Player A] Double (). Player A BP multiplier: " + scene.playerABPMultiplier);
+
+        } else if (gameObject.data.values.type === "playerBCard") {
+
+          scene.playerBBPMultiplier = scene.playerBBPMultiplier * 2;
+
+          scene.consoleTextArray.push(">[Player B] Double (). Player B BP multiplier: " + scene.playerBBPMultiplier);
+
+        }
+
+      };
+
     }
 
 }

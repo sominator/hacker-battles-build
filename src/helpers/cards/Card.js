@@ -19,6 +19,7 @@ export default class Card {
         type: type,
         active: true,
         played: false,
+        socket: 0,
         onInitialize: function () {
 
         },
@@ -28,21 +29,13 @@ export default class Card {
 
           scene.turnOrder += 1;
 
-          if (dropZone.data.values.type === "playerASlot") {
+          if (dropZone.data.values.type === "playerASlot" && scene.variablesActive) {
 
-            if (scene.variablesActive) {
+            scene.playerAVariables += gameObject.data.values.variables;
 
-              scene.playerAVariables += gameObject.data.values.variables;
+          } else if (dropZone.data.values.type === "playerBSlot" && scene.variablesActive) {
 
-            }
-
-          } else if (dropZone.data.values.type === "playerBSlot") {
-
-            if (scene.variablesActive) {
-
-              scene.playerBVariables += gameObject.data.values.variables;
-
-            }
+            scene.playerBVariables += gameObject.data.values.variables;
 
           }
 
@@ -57,13 +50,19 @@ export default class Card {
           }
 
         },
-        onExecute: function () {
+        onExecute: function (gameObject) {
 
-          if (this.type === "playerACard" && scene.playerABPActive) {
+          self.executeEffect(gameObject);
+
+        /*  if (this.type === "playerACard" && scene.playerABPActive) {
+
             scene.playerABP += this.bp;
+
           } else if (this.type === "playerBCard" && scene.playerBBPActive) {
+
             scene.playerBBP += this.bp;
-          }
+
+          } */
 
         }
       });

@@ -25,6 +25,40 @@ export default class Host extends Card {
 
       };
 
+      this.executeEffect = (gameObject) => {
+
+        if (gameObject.data.values.type === "playerACard") {
+
+          if (scene.playerABPActive) {
+
+            scene.playerACompileBP = scene.playerACompileBP + gameObject.data.values.socket;
+
+            scene.consoleTextArray.push(">[Player A] Host () in socket number: " + gameObject.data.values.socket + ". Player A BP earned this round: "  + scene.playerACompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player A] Host () intercepted by Firewall ().");
+
+          }
+
+        } else if (gameObject.data.values.type === "playerBCard") {
+
+          if (scene.playerBBPActive) {
+
+            scene.playerBCompileBP = scene.playerBCompileBP + gameObject.data.values.socket;
+
+            scene.consoleTextArray.push(">[Player B] Host () in socket number: " + gameObject.data.values.socket + ". Player B BP earned this round: "  + scene.playerBCompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player B] Host () intercepted by Firewall ().");
+
+          }
+
+        }
+
+      };
+
     }
 
 }

@@ -25,6 +25,54 @@ export default class Boolean extends Card {
 
       };
 
+      this.executeEffect = (gameObject) => {
+
+        if (gameObject.data.values.type === "playerACard") {
+
+          if (scene.playerABPActive) {
+
+            if (scene.booleanCount === 1) {
+
+              scene.playerACompileBP = scene.playerACompileBP + 4;
+
+            } else if (scene.booleanCount > 1) {
+
+              scene.playerACompileBP = scene.playerACompileBP - 2;
+            }
+
+            scene.consoleTextArray.push(">[Player A] Boolean (). Number of Booleans () in play: " + scene.booleanCount + ". Player A BP earned this round: " + scene.playerACompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player A] Boolean () intercepted by Firewall ().");
+
+          }
+
+        } else if (gameObject.data.values.type === "playerBCard") {
+
+          if (scene.playerBBPActive) {
+
+            if (scene.booleanCount === 1) {
+
+              scene.playerBCompileBP = scene.playerBCompileBP + 4;
+
+            } else if (scene.booleanCount > 1) {
+
+              scene.playerBCompileBP = scene.playerBCompileBP - 2;
+            }
+
+            scene.consoleTextArray.push(">[Player B] Boolean (). Number of Booleans () in play: " + scene.booleanCount + ". Player B BP earned this round: " + scene.playerBCompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player B] Boolean () intercepted by Firewall ().");
+
+          }
+
+        }
+
+      };
+
     }
 
 }

@@ -27,6 +27,40 @@ export default class Scrape extends Card {
 
       };
 
+      this.executeEffect = (gameObject) => {
+
+        if (gameObject.data.values.type === "playerACard") {
+
+          if (scene.playerABPActive) {
+
+            scene.playerACompileBP = scene.playerACompileBP + 2;
+
+            scene.consoleTextArray.push(">[Player A] Scrape (). Player A BP earned this round: " + scene.playerACompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player A] Scrape () intercepted by Firewall ().");
+
+          }
+
+        } else if (gameObject.data.values.type === "playerBCard") {
+
+          if (scene.playerBBPActive) {
+
+            scene.playerBCompileBP = scene.playerBCompileBP + 2;
+
+            scene.consoleTextArray.push(">[Player B] Scrape (). Player B BP earned this round: " + scene.playerBCompileBP);
+
+          } else {
+
+            scene.consoleTextArray.push(">[Player B] Scrape () intercepted by Firewall ().");
+
+          }
+
+        }
+
+      };
+
     }
 
 }

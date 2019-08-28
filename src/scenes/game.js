@@ -35,19 +35,21 @@ export default class Game extends Phaser.Scene {
     this.playerBYard = [];
     this.turnOrder = 0; //tracks number of turns, with a maximum of 10 turns per round
     this.gameState = "Initialize"; //tracks the three game states of Initialize {}, Compile {}, and Execute {}
+    this.playerABP = 0; //stores player's BP
+    this.playerBBP = 0; //stores opponent's BP
     this.playerABPActive = true; //determines whether opponent is able to collect BP during a round
     this.playerBBPActive = true; //determines whether player is able to collect BP during a round
-    this.variablesActive = true; //determines whether players are able to accrue variables during a round
-    this.playerBBP = 0; //stores opponent's BP
-    this.playerBBPMultiplier = 1; //stores opponent's BP multiplier, from a card such as Double ()
-    this.playerBCompileBP = 0; //stores amount of BP that the opponent will collect during the Execute {} phase
-    this.playerBVariables = 0; //stores opponent's number of variables
-    this.playerABP = 0; //stores player's BP
     this.playerABPMultiplier = 1; //stores player's BP multiplier, from a card such as Double ()
-    this.playerACompileBP = 0; //stores amount of BP that the player will collect during the Execute {} phase
+    this.playerBBPMultiplier = 1; //stores opponent's BP multiplier, from a card such as Double ()
     this.playerAVariables = 0; //stores player's number of variables
+    this.playerBVariables = 0; //stores opponent's number of variables
+    this.variablesActive = true; //determines whether players are able to accrue variables during a round
+    this.playerACompileBP = 0; //stores amount of BP that the player will collect during the Execute {} phase
+    this.playerBCompileBP = 0; //stores amount of BP that the opponent will collect during the Execute {} phase
     this.booleanCount = 0; //tracks how many Booleans () are in play
     this.turnkeyCount = 0 //tracks how many Turnkeys () are in play
+    this.playerAInactiveFunctions = false;
+    this.playerBInactiveFunctions = false;
 
     //render slots and their outlines
     this.playerBSlot5 = this.slots.drawSlot(200, 300, 'playerBSlot', 9, 5);
@@ -203,6 +205,7 @@ export default class Game extends Phaser.Scene {
         gameObject.y = dropZone.y;
         gameObject.setScale(0.19, 0.19);
         gameObject.setData("played", true);
+        gameObject.setData("socket", dropZone.data.values.socket);
         dropZone.setData("active", true);
         gameObject.data.values.onCompile(dropZone, gameObject);
 
@@ -226,18 +229,44 @@ export default class Game extends Phaser.Scene {
 
         }
 
+      self.consoleTextArray = ["Refer to this space for Hacker Battle info.", ""];
+
       self.gameState = "Compile";
 
     });
 
     this.executeText.on('pointerdown', function (pointer, gameObject) {
 
+      self.consoleTextArray = ["Program Execution {}:", ""];
+
+      //check both player programs for Booleans () or Turnkeys ()
+
       for (let i = 0; i < 5; i++) {
 
-        self.playerAProgram[i].data.values.onExecute();
-        self.playerBProgram[i].data.values.onExecute();
+        if (self.playerAProgram[i].data.values.name === "Boolean ()" || self.playerBProgram[i].data.values.name === "Boolean ()") {
+
+          self.booleanCount++;
+
+        }
+
+        if (self.playerAProgram[i].data.values.name === "Turnkey ()" || self.playerBProgram[i].data.values.name === "Turnkey ()") {
+
+          self.turnkeyCount++;
+
+        }
 
       }
+
+      //resolve Exeuction {} effects
+
+      for (let i = 0; i < 5; i++) {
+
+        self.playerAProgram[i].data.values.onExecute(self.playerAProgram[i]);
+        self.playerBProgram[i].data.values.onExecute(self.playerBProgram[i]);
+
+      }
+
+      //move player program cards to yards
 
 
       for (let i = 0; i < 5; i++) {
@@ -248,15 +277,75 @@ export default class Game extends Phaser.Scene {
 
       }
 
-      self.gameState = "Execute";
-      self.turnOrder = 0;
-      self.variablesActive = true;
+      //resolve BP accrual with multiplier(s) if playerBPActive and/or opponentBPActive
+
+      if (self.playerABPActive) {
+
+        self.playerABP = self.playerABP + (self.playerACompileBP * self.playerABPMultiplier);
+
+      }
+
+      if (self.playerBBPActive) {
+
+        self.playerBBP = self.playerBBP + (self.playerBCompileBP * self.playerBBPMultiplier);
+
+      }
+
+      //resolve win conditions
+
+      if ((self.playerABP >= 10 || self.playerBBP >= 10) && self.playerABP !== self.playerBBP) {
+
+        self.gameState = "Win";
+
+        if (self.playerABP > self.playerBBP) {
+
+          self.gameText.text = ["Player A Won."];
+
+        } else if (self.playerBBP > self.playerABP) {
+
+          self.gameText.text = ["Player B Won."];
+        }
+      }
+
+      //reset game state and variables for next round
+
+      if (self.gameState !== "Win") {
+
+        self.gameState = "Execute";
+        self.turnOrder = 0;
+        self.variablesActive = true;
+        self.playerABPActive = true;
+        self.playerBBPActive = true;
+        self.playerACompileBP = 0;
+        self.playerBCompileBP = 0;
+        self.playerABPMultiplier = 1;
+        self.playerBBPMultiplier = 1;
+        self.booleanCount = 0;
+        self.turnkeyCount = 0;
+        self.playerAInactiveFunctions = false;
+        self.playerBInactiveFunctions = false;
+
+      }
 
     });
 
   }
 
   update() {
+
+    //ensure Player BP >= 0
+
+    if (this.playerABP < 0) {
+
+      this.playerABP = 0;
+
+    }
+
+    if (this.playerBBP < 0) {
+
+      this.playerBBP = 0;
+
+    }
 
     //continuously update text
 
@@ -290,6 +379,9 @@ export default class Game extends Phaser.Scene {
       case ("Pause"):
         this.gameText.text = ['Compile paused.'];
         break;
+      case ("Win"):
+        this.executeText.setTint();
+        this.executeText.disableInteractive();
     }
 
     if (this.gameState === "Compile" && this.turnOrder === 10) {
