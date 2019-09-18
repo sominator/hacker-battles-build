@@ -6,7 +6,8 @@ export default class Host extends Card {
 
       super(scene);
 
-      this.sprite = "host";
+      this.spriteA = "hostA";
+      this.spriteB = "hostB";
       this.name = "Host ()";
       this.description = "Gain a number of BP equal to the slot this function is played in.";
       this.bp = 0,

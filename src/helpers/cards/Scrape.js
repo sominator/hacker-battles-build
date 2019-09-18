@@ -6,7 +6,8 @@ export default class Scrape extends Card {
 
       super(scene);
 
-      this.sprite = "scrape";
+      this.spriteA = "scrapeA";
+      this.spriteB = "scrapeB";
       this.name = "Scrape ()";
       this.description = "Negate any variables that would be gained after this function is played. Gain 2 BP.";
       this.bp = 2,

@@ -14,12 +14,16 @@ export default class Game extends Phaser.Scene {
 
   preload() {
 
-    this.load.image('card', "src/assets/Cyan_Back@3x.png");
-    this.load.image('boolean', "src/assets/Cyan_Boolean@3x.png");
-    this.load.image('double', "src/assets/Cyan_Double@3x.png");
-    this.load.image('host', "src/assets/Cyan_Host@3x.png");
-    this.load.image('ping', "src/assets/Cyan_Ping@3x.png");
-    this.load.image('scrape', "src/assets/Cyan_Scrape@3x.png");
+    this.load.image('booleanA', "src/assets/Cyan_Boolean@3x.png");
+    this.load.image('booleanB', "src/assets/Magenta_Boolean@3x.png");
+    this.load.image('doubleA', "src/assets/Cyan_Double@3x.png");
+    this.load.image('doubleB', "src/assets/Magenta_Double@3x.png");
+    this.load.image('hostA', "src/assets/Cyan_Host@3x.png");
+    this.load.image('hostB', "src/assets/Magenta_Host@3x.png");
+    this.load.image('pingA', "src/assets/Cyan_Ping@3x.png");
+    this.load.image('pingB', "src/assets/Magenta_Ping@3x.png");
+    this.load.image('scrapeA', "src/assets/Cyan_Scrape@3x.png");
+    this.load.image('scrapeB', "src/assets/Magenta_Scrape@3x.png");
     this.load.image('cyanback', "src/assets/Cyan_Back@3x.png");
     this.load.image('magentaback', "src/assets/Magenta_Back@3x.png");
     this.load.image('objective', "src/assets/Objective_10BP@3x.png");
@@ -76,63 +80,70 @@ export default class Game extends Phaser.Scene {
     this.playerASlot4Outline = this.slots.drawSlotOutline(this.playerASlot4);
     this.playerASlot5Outline = this.slots.drawSlotOutline(this.playerASlot5);
 
-    //creating outlines for hand areas and user interface
-
-    this.playerBHandArea = this.add.rectangle(475, 165, 875, 300);
-    this.playerBHandArea.setStrokeStyle(4, 0xff69b4);
-    this.playerBDataArea = this.add.rectangle(1305, 40, 100, 50);
-    this.playerBDataArea.setStrokeStyle(3, 0x00ffff);
-    this.playerBYardArea = this.add.rectangle(1050, 165, 200, 300);
-    this.playerBYardArea.setStrokeStyle(3, 0x00ffff);
-    this.add.image(1050, 155, "magentaback").setScale(0.3, 0.3);
+    //creating outlines for hand areas, user interface, and player text
 
     this.playerAHandArea = this.add.rectangle(475, 830, 875, 300);
     this.playerAHandArea.setStrokeStyle(4, 0xff69b4);
-    this.playerADataArea = this.add.rectangle(1305, 705, 100, 50);
-    this.playerADataArea.setStrokeStyle(3, 0x00ffff);
+
     this.playerAYardArea = this.add.rectangle(1050, 830, 200, 300);
     this.playerAYardArea.setStrokeStyle(3, 0x00ffff);
     this.add.image(1050, 820, "cyanback").setScale(0.3, 0.3);
 
-    this.gameStateArea = this.add.rectangle(970, 500, 200, 250);
-    this.gameStateArea.setStrokeStyle(3, 0x00ffff);
+    this.playerADataArea = this.add.rectangle(1305, 705, 100, 50);
+    this.playerADataArea.setStrokeStyle(3, 0x00ffff);
+    this.playerAText = this.add.text(1265, 685, ["BP: " + this.playerABP, "Variables: " + this.playerAVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
+
+    this.playerASpecializationArea = this.add.rectangle(1305, 860, 108, 150);
+    this.playerASpecializationArea.setStrokeStyle(3, 0x00ffff);
+    this.add.text(1260, 795, ["Specialization", "inactive."]).setFontSize(14).setFontFamily('Trebuchet MS');
+
+    this.playerBHandArea = this.add.rectangle(475, 165, 875, 300);
+    this.playerBHandArea.setStrokeStyle(4, 0xff69b4);
+
+    this.playerBYardArea = this.add.rectangle(1050, 165, 200, 300);
+    this.playerBYardArea.setStrokeStyle(3, 0x00ffff);
+    this.add.image(1050, 155, "magentaback").setScale(0.3, 0.3);
+
+    this.playerBDataArea = this.add.rectangle(1305, 40, 100, 50);
+    this.playerBDataArea.setStrokeStyle(3, 0x00ffff);
+    this.playerBText = this.add.text(1265, 20, ["BP: " + this.playerBBP, "Variables: " + this.playerBVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
+
+    this.playerBSpecializationArea = this.add.rectangle(1305, 195, 108, 150);
+    this.playerBSpecializationArea.setStrokeStyle(3, 0x00ffff);
+    this.add.text(1260, 130, ["Specialization", "inactive."]).setFontSize(14).setFontFamily('Trebuchet MS');
+
+    //create UI for objective card
 
     this.objectiveArea = this.add.rectangle(1270, 500, 300, 200);
     this.objectiveArea.setStrokeStyle(3, 0x00ffff);
     this.add.image(1275, 500, "objective").setScale(0.3, 0.3);
 
-    this.consoleArea = this.add.rectangle(1600, 500, 275, 900);
-    this.consoleArea.setStrokeStyle(3, 0x00ffff);
+    //create game state UI and text
 
-    //create display of text to change game state
+    this.gameStateArea = this.add.rectangle(970, 500, 200, 250);
+    this.gameStateArea.setStrokeStyle(3, 0x00ffff);
+    this.gameText = this.add.text(875, 380, [""]).setFontSize(14).setFontFamily('Trebuchet MS');
 
     this.initializeText = this.add.text(930, 435, "Initialize {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
     this.compileText = this.add.text(930, 465, "Compile {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
     this.executeText = this.add.text(930, 495, "Execute {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
 
-    //create display of game action text
+    //create display of game console UI and text
+
+    this.consoleArea = this.add.rectangle(1615, 500, 300, 965);
+    this.consoleArea.setStrokeStyle(3, 0x00ffff);
 
     this.consoleTextArray = ["Refer to this space for Hacker Battle info.", ""];
 
     this.consoleText = this.make.text({
       x: 1475,
-      y: 60,
+      y: 25,
       text: this.consoleTextArray,
       style: {
         font: "14px Trebuchet MS",
-        wordWrap: {width: 250}
+        wordWrap: {width: 275}
       }
     });
-
-    //create text to display current BP and variables
-
-    this.playerBText = this.add.text(1265, 20, ["BP: " + this.playerBBP, "Variables: " + this.playerBVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
-
-    this.playerAText = this.add.text(1265, 685, ["BP: " + this.playerABP, "Variables: " + this.playerAVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
-
-    //create game state text and inactive function instructions
-
-    this.gameText = this.add.text(875, 380, [""]).setFontSize(14).setFontFamily('Trebuchet MS');
 
     //store this as a variable for scope within interactivity functions
 
@@ -218,7 +229,17 @@ export default class Game extends Phaser.Scene {
 
     this.input.on('dragstart', function(pointer, gameObject) {
 
-      gameObject.setTint(0x00ffff);
+      if (gameObject.data.values.type === "playerACard") {
+
+          gameObject.setTint(0x00ffff);
+
+      } else {
+
+        gameObject.setTint(0xff69b4);
+
+      }
+
+
       this.children.bringToTop(gameObject);
       gameObject.setScale(0.19, 0.19);
 

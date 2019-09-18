@@ -6,7 +6,8 @@ export default class Boolean extends Card {
 
       super(scene);
 
-      this.sprite = "boolean";
+      this.spriteA = "booleanA";
+      this.spriteB = "booleanB";
       this.name = "Boolean ()";
       this.description = "If there is another Boolean () in play during the Execute {} phase, lose 2 BP. If there isn’t, gain 4 BP.";
       this.bp = 0,

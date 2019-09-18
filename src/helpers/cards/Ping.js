@@ -6,7 +6,8 @@ export default class Ping extends Card {
 
       super(scene);
 
-      this.sprite = "ping";
+      this.spriteA = "pingA";
+      this.spriteB = "pingB";
       this.name = "Ping ()";
       this.description = "Gain 2 BP. All of your opponents lose 1 BP.";
       this.bp = 2,

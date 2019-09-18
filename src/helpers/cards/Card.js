@@ -4,11 +4,23 @@ export default class Card {
 
     this.render = (x, y, type) => {
 
-      let card = scene.add.image(x, y, this.sprite).setScale(0.3, 0.3).setInteractive();
+      let self = this;
+
+      let sprite;
+
+      if (type === "playerACard") {
+
+        sprite = self.spriteA;
+
+      } else {
+
+        sprite = self.spriteB;
+
+      }
+
+      let card = scene.add.image(x, y, sprite).setScale(0.3, 0.3).setInteractive();
 
       scene.input.setDraggable(card);
-
-      let self = this;
 
       card.setData({
 

@@ -6,7 +6,8 @@ export default class Double extends Card {
 
       super(scene);
 
-      this.sprite = "double";
+      this.spriteA = "doubleA";
+      this.spriteB = "doubleB";
       this.name = "Double ()";
       this.description = "Double the amount of BP that you earn this round.";
       this.bp = 0,
