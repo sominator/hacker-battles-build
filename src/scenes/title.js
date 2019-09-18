@@ -18,9 +18,9 @@ export default class Title extends Phaser.Scene{
 
   create() {
 
-    this.logo = this.add.sprite(675, 100, 'logo').setScale(0.25, 0.25).setTint(0x00ffff);
+    this.logo = this.add.sprite(875, 200, 'logo').setScale(0.25, 0.25).setTint(0x00ffff);
 
-    this.add.text(450, 300, ["Welcome to the Entromancy: Hacker Battles Demo.", "", "Click anywhere to continue."]).setFontSize(20).setFontFamily('Trebuchet MS').setColor('#00ffff').setAlign('center');
+    this.add.text(650, 400, ["Welcome to the Entromancy: Hacker Battles Demo.", "", "Click anywhere to continue."]).setFontSize(20).setFontFamily('Trebuchet MS').setColor('#00ffff').setAlign('center');
 
     this.input.on('pointerdown', function(pointer) {
       this.scene.start('Game');

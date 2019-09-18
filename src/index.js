@@ -4,8 +4,8 @@ import Game from "./scenes/game.js";
 
 let config = {
     type: Phaser.AUTO,
-    width: 1400,
-    height: 810,
+    width: 1800,
+    height: 1000,
     scene: [
       Title,
       Game

@@ -14,12 +14,15 @@ export default class Game extends Phaser.Scene {
 
   preload() {
 
-    this.load.image('card', "src/assets/Card-Back.png");
-    this.load.image('boolean', "src/assets/Boolean.png");
-    this.load.image('double', "src/assets/Double.png");
-    this.load.image('host', "src/assets/Host.png");
-    this.load.image('ping', "src/assets/Ping.png");
-    this.load.image('scrape', "src/assets/Scrape.png");
+    this.load.image('card', "src/assets/Cyan_Back@3x.png");
+    this.load.image('boolean', "src/assets/Cyan_Boolean@3x.png");
+    this.load.image('double', "src/assets/Cyan_Double@3x.png");
+    this.load.image('host', "src/assets/Cyan_Host@3x.png");
+    this.load.image('ping', "src/assets/Cyan_Ping@3x.png");
+    this.load.image('scrape', "src/assets/Cyan_Scrape@3x.png");
+    this.load.image('cyanback', "src/assets/Cyan_Back@3x.png");
+    this.load.image('magentaback', "src/assets/Magenta_Back@3x.png");
+    this.load.image('objective', "src/assets/Objective_10BP@3x.png");
 
   }
 
@@ -52,16 +55,16 @@ export default class Game extends Phaser.Scene {
     this.playerBInactiveFunctions = false;
 
     //render slots and their outlines
-    this.playerBSlot5 = this.slots.drawSlot(200, 300, 'playerBSlot', 9, 5);
-    this.playerBSlot4 = this.slots.drawSlot(350, 300, 'playerBSlot', 7, 4);
-    this.playerBSlot3 = this.slots.drawSlot(500, 300, 'playerBSlot', 5, 3);
-    this.playerBSlot2 = this.slots.drawSlot(650, 300, 'playerBSlot', 3, 2);
-    this.playerBSlot1 = this.slots.drawSlot(800, 300, 'playerBSlot', 1, 1);
-    this.playerASlot1 = this.slots.drawSlot(200, 465, 'playerASlot', 0, 1);
-    this.playerASlot2 = this.slots.drawSlot(350, 465, 'playerASlot', 2, 2);
-    this.playerASlot3 = this.slots.drawSlot(500, 465, 'playerASlot', 4, 3);
-    this.playerASlot4 = this.slots.drawSlot(650, 465, 'playerASlot', 6, 4);
-    this.playerASlot5 = this.slots.drawSlot(800, 465, 'playerASlot', 8, 5);
+    this.playerBSlot5 = this.slots.drawSlot(175, 415, 'playerBSlot', 9, 5);
+    this.playerBSlot4 = this.slots.drawSlot(325, 415, 'playerBSlot', 7, 4);
+    this.playerBSlot3 = this.slots.drawSlot(475, 415, 'playerBSlot', 5, 3);
+    this.playerBSlot2 = this.slots.drawSlot(625, 415, 'playerBSlot', 3, 2);
+    this.playerBSlot1 = this.slots.drawSlot(775, 415, 'playerBSlot', 1, 1);
+    this.playerASlot1 = this.slots.drawSlot(175, 585, 'playerASlot', 0, 1);
+    this.playerASlot2 = this.slots.drawSlot(325, 585, 'playerASlot', 2, 2);
+    this.playerASlot3 = this.slots.drawSlot(475, 585, 'playerASlot', 4, 3);
+    this.playerASlot4 = this.slots.drawSlot(625, 585, 'playerASlot', 6, 4);
+    this.playerASlot5 = this.slots.drawSlot(775, 585, 'playerASlot', 8, 5);
     this.playerBSlot5Outline = this.slots.drawSlotOutline(this.playerBSlot5);
     this.playerBSlot4Outline = this.slots.drawSlotOutline(this.playerBSlot4);
     this.playerBSlot3Outline = this.slots.drawSlotOutline(this.playerBSlot3);
@@ -75,35 +78,45 @@ export default class Game extends Phaser.Scene {
 
     //creating outlines for hand areas and user interface
 
-    this.playerBHandArea = this.add.rectangle(500, 110, 800, 200);
+    this.playerBHandArea = this.add.rectangle(475, 165, 875, 300);
     this.playerBHandArea.setStrokeStyle(4, 0xff69b4);
-    this.playerBDataArea = this.add.rectangle(965, 45, 100, 50);
+    this.playerBDataArea = this.add.rectangle(1305, 40, 100, 50);
     this.playerBDataArea.setStrokeStyle(3, 0x00ffff);
+    this.playerBYardArea = this.add.rectangle(1050, 165, 200, 300);
+    this.playerBYardArea.setStrokeStyle(3, 0x00ffff);
+    this.add.image(1050, 155, "magentaback").setScale(0.3, 0.3);
 
-    this.playerAHandArea = this.add.rectangle(500, 650, 800, 200);
+    this.playerAHandArea = this.add.rectangle(475, 830, 875, 300);
     this.playerAHandArea.setStrokeStyle(4, 0xff69b4);
-    this.playerADataArea = this.add.rectangle(965, 720, 100, 50);
+    this.playerADataArea = this.add.rectangle(1305, 705, 100, 50);
     this.playerADataArea.setStrokeStyle(3, 0x00ffff);
+    this.playerAYardArea = this.add.rectangle(1050, 830, 200, 300);
+    this.playerAYardArea.setStrokeStyle(3, 0x00ffff);
+    this.add.image(1050, 820, "cyanback").setScale(0.3, 0.3);
 
-    this.gameStateArea = this.add.rectangle(970, 375, 200, 250);
+    this.gameStateArea = this.add.rectangle(970, 500, 200, 250);
     this.gameStateArea.setStrokeStyle(3, 0x00ffff);
 
-    this.consoleArea = this.add.rectangle(1235, 400, 275, 750);
+    this.objectiveArea = this.add.rectangle(1270, 500, 300, 200);
+    this.objectiveArea.setStrokeStyle(3, 0x00ffff);
+    this.add.image(1275, 500, "objective").setScale(0.3, 0.3);
+
+    this.consoleArea = this.add.rectangle(1600, 500, 275, 900);
     this.consoleArea.setStrokeStyle(3, 0x00ffff);
 
     //create display of text to change game state
 
-    this.initializeText = this.add.text(930, 310, "Initialize {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
-    this.compileText = this.add.text(930, 340, "Compile {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
-    this.executeText = this.add.text(930, 370, "Execute {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
+    this.initializeText = this.add.text(930, 435, "Initialize {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
+    this.compileText = this.add.text(930, 465, "Compile {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
+    this.executeText = this.add.text(930, 495, "Execute {}").setFontSize(14).setFontFamily('Trebuchet MS').setData("type", "console");
 
     //create display of game action text
 
     this.consoleTextArray = ["Refer to this space for Hacker Battle info.", ""];
 
     this.consoleText = this.make.text({
-      x: 1110,
-      y: 30,
+      x: 1475,
+      y: 60,
       text: this.consoleTextArray,
       style: {
         font: "14px Trebuchet MS",
@@ -113,13 +126,13 @@ export default class Game extends Phaser.Scene {
 
     //create text to display current BP and variables
 
-    this.playerBText = this.add.text(925, 25, ["BP: " + this.playerBBP, "Variables: " + this.playerBVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
+    this.playerBText = this.add.text(1265, 20, ["BP: " + this.playerBBP, "Variables: " + this.playerBVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
 
-    this.playerAText = this.add.text(925, 700, ["BP: " + this.playerABP, "Variables: " + this.playerAVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
+    this.playerAText = this.add.text(1265, 685, ["BP: " + this.playerABP, "Variables: " + this.playerAVariables]).setFontSize(14).setFontFamily('Trebuchet MS');
 
     //create game state text and inactive function instructions
 
-    this.gameText = this.add.text(875, 255, [""]).setFontSize(14).setFontFamily('Trebuchet MS');
+    this.gameText = this.add.text(875, 380, [""]).setFontSize(14).setFontFamily('Trebuchet MS');
 
     //store this as a variable for scope within interactivity functions
 
@@ -131,9 +144,23 @@ export default class Game extends Phaser.Scene {
 
       if (gameObjects[0].data.values.type === 'playerACard' || gameObjects[0].data.values.type === 'playerBCard') {
 
-        gameObjects[0].setScale(0.4, 0.4);
+        gameObjects[0].setScale(0.5, 0.5);
 
         self.children.bringToTop(gameObjects[0]);
+
+        if (!gameObjects[0].data.values.played) {
+
+          if (gameObjects[0].data.values.type === 'playerACard') {
+
+            gameObjects[0].y = gameObjects[0].y - 50;
+
+          } else {
+
+            gameObjects[0].y = gameObjects[0].y + 50;
+
+          }
+
+        }
 
 
       } else if (gameObjects[0].data.values.type === 'console') {
@@ -154,7 +181,21 @@ export default class Game extends Phaser.Scene {
 
         } else {
 
-          gameObjects[0].setScale(0.25, 0.25);
+          gameObjects[0].setScale(0.3, 0.3);
+
+          if (!gameObjects[0].data.values.played) {
+
+            if (gameObjects[0].data.values.type === 'playerACard') {
+
+              gameObjects[0].y = gameObjects[0].y + 50;
+
+            } else {
+
+              gameObjects[0].y = gameObjects[0].y - 50;
+
+            }
+
+          }
 
         }
 
@@ -191,7 +232,7 @@ export default class Game extends Phaser.Scene {
 
         gameObject.x = gameObject.input.dragStartX;
         gameObject.y = gameObject.input.dragStartY;
-        gameObject.setScale(0.25, 0.25);
+        gameObject.setScale(0.3, 0.3);
 
       }
 
@@ -224,8 +265,8 @@ export default class Game extends Phaser.Scene {
 
       for (let i = 0; i < 5; i++) {
 
-          self.playerAHand.push(self.deckHandler.drawCard().render(200 + (i * 150), 650, "playerACard"));
-          self.playerBHand.push(self.deckHandler.drawCard().render(800 - (i * 150), 110, "playerBCard"));
+          self.playerAHand.push(self.deckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
+          self.playerBHand.push(self.deckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
 
         }
 
