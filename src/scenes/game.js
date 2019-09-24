@@ -33,7 +33,8 @@ export default class Game extends Phaser.Scene {
   create() {
 
     this.slots = new Slots(this);
-    this.deckHandler = new DeckHandler(this);
+    this.playerADeckHandler = new DeckHandler(this);
+    this.playerBDeckHandler = new DeckHandler(this);
     this.playerAHand = [];
     this.playerBHand = [];
     this.playerAProgram = [];
@@ -286,8 +287,8 @@ export default class Game extends Phaser.Scene {
 
       for (let i = 0; i < 5; i++) {
 
-          self.playerAHand.push(self.deckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
-          self.playerBHand.push(self.deckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
+          self.playerAHand.push(self.playerADeckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
+          self.playerBHand.push(self.playerBDeckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
 
         }
 
@@ -339,17 +340,29 @@ export default class Game extends Phaser.Scene {
 
       }
 
-      //resolve BP accrual with multiplier(s) if playerBPActive and/or opponentBPActive
+      //resolve BP accrual with multiplier(s) if playerBPActive and/or opponentBPActive and ensure BP >= 0
 
       if (self.playerABPActive) {
 
         self.playerABP = self.playerABP + (self.playerACompileBP * self.playerABPMultiplier);
+
+        if (this.playerABP < 0) {
+
+          this.playerABP = 0;
+
+        }
 
       }
 
       if (self.playerBBPActive) {
 
         self.playerBBP = self.playerBBP + (self.playerBCompileBP * self.playerBBPMultiplier);
+
+        if (this.playerBBP < 0) {
+
+          this.playerBBP = 0;
+
+        }
 
       }
 
@@ -394,20 +407,6 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
-
-    //ensure Player BP >= 0
-
-    if (this.playerABP < 0) {
-
-      this.playerABP = 0;
-
-    }
-
-    if (this.playerBBP < 0) {
-
-      this.playerBBP = 0;
-
-    }
 
     //continuously update text
 
