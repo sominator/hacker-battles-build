@@ -1,6 +1,7 @@
 import Boolean from "./cards/Boolean.js";
 import Double from "./cards/Double.js";
 import Host from "./cards/Host.js";
+import Inactive from "./cards/Inactive.js";
 import Ping from "./cards/Ping.js";
 import Scrape from "./cards/Scrape.js";
 

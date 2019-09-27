@@ -66,19 +66,17 @@ export default class Card {
 
           self.executeEffect(gameObject);
 
-        /*  if (this.type === "playerACard" && scene.playerABPActive) {
+        },
+        onFlip: function () {
 
-            scene.playerABP += this.bp;
-
-          } else if (this.type === "playerBCard" && scene.playerBBPActive) {
-
-            scene.playerBBP += this.bp;
-
-          } */
+          console.log("Flipped!");
 
         }
+
       });
+
       return card;
+
     }
 
   }

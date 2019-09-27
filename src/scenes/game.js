@@ -146,6 +146,10 @@ export default class Game extends Phaser.Scene {
       }
     });
 
+    //prepare SHIFT key for playing inactive functions
+
+    this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
     //store this as a variable for scope within interactivity functions
 
     let self = this;
@@ -263,6 +267,24 @@ export default class Game extends Phaser.Scene {
     this.input.on('drop', function(pointer, gameObject, dropZone) {
 
       if (dropZone.data.values.turn === self.turnOrder && !gameObject.data.values.played && ((gameObject.data.values.type === 'playerACard' && dropZone.data.values.type === 'playerASlot') || (gameObject.data.values.type === 'playerBCard' && dropZone.data.values.type === 'playerBSlot'))) {
+
+        if (self.shiftKey.isDown) {
+
+          if (gameObject.data.values.type === 'playerACard' && !self.playerAInactiveFunctions) {
+
+            gameObject.data.values.onFlip();
+
+            self.playerAInactiveFunctions = true;
+
+          } else if (gameObject.data.values.type === "playerBCard" && !self.playerBInactiveFunctions) {
+
+            gameObject.data.values.onFlip();
+
+            self.playerBInactiveFunctions = true;
+
+          }
+
+        }
 
         gameObject.x = dropZone.x;
         gameObject.y = dropZone.y;
