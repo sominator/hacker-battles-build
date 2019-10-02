@@ -14,19 +14,19 @@ export default class Game extends Phaser.Scene {
 
   preload() {
 
-    this.load.image('booleanA', "src/assets/Cyan_Boolean@3x.png");
-    this.load.image('booleanB', "src/assets/Magenta_Boolean@3x.png");
-    this.load.image('doubleA', "src/assets/Cyan_Double@3x.png");
-    this.load.image('doubleB', "src/assets/Magenta_Double@3x.png");
-    this.load.image('hostA', "src/assets/Cyan_Host@3x.png");
-    this.load.image('hostB', "src/assets/Magenta_Host@3x.png");
-    this.load.image('pingA', "src/assets/Cyan_Ping@3x.png");
-    this.load.image('pingB', "src/assets/Magenta_Ping@3x.png");
-    this.load.image('scrapeA', "src/assets/Cyan_Scrape@3x.png");
-    this.load.image('scrapeB', "src/assets/Magenta_Scrape@3x.png");
-    this.load.image('cyanback', "src/assets/Cyan_Back@3x.png");
-    this.load.image('magentaback', "src/assets/Magenta_Back@3x.png");
-    this.load.image('objective', "src/assets/Objective_10BP@3x.png");
+    this.load.image('booleanA', "src/assets/Cyan_Boolean3x.png");
+    this.load.image('booleanB', "src/assets/Magenta_Boolean3x.png");
+    this.load.image('doubleA', "src/assets/Cyan_Double3x.png");
+    this.load.image('doubleB', "src/assets/Magenta_Double3x.png");
+    this.load.image('hostA', "src/assets/Cyan_Host3x.png");
+    this.load.image('hostB', "src/assets/Magenta_Host3x.png");
+    this.load.image('pingA', "src/assets/Cyan_Ping3x.png");
+    this.load.image('pingB', "src/assets/Magenta_Ping3x.png");
+    this.load.image('scrapeA', "src/assets/Cyan_Scrape3x.png");
+    this.load.image('scrapeB', "src/assets/Magenta_Scrape3x.png");
+    this.load.image('cyanback', "src/assets/Cyan_Back3x.png");
+    this.load.image('magentaback', "src/assets/Magenta_Back3x.png");
+    this.load.image('objective', "src/assets/Objective_10BP3x.png");
 
   }
 
