@@ -146,6 +146,14 @@ export default class Game extends Phaser.Scene {
       }
     });
 
+    this.add.text(1150, 375, ["Press Escape to view the instructions."]).setFontSize(14).setFontFamily('Trebuchet MS');
+
+    //switch scene to Instructions upon ESC keydown
+
+    this.input.keyboard.on('keydown-ESC', function(event) {
+      this.scene.switch('Instructions');
+    }, this);
+
     //prepare SHIFT key for playing inactive functions
 
     this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
