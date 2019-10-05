@@ -1,15 +1,18 @@
-let express = require ('express');
-let app = express();
-let server = require('http').Server(app);
-let io = require('socket.io').listen(server);
+import express from 'express';
+import http from 'http';
+import io from 'socket.io';
 
-app.use(express.static(__dirname + '/src'));
+let app = express();
+let server = http.Server(app);
+let socketio = io.listen(server);
+
+app.use(express.static(__dirname));
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function (socket) {
+socketio.on('connection', function (socket) {
   console.log('A user connected!');
   socket.on('disconnect', function () {
     console.log('User disconnected!');
