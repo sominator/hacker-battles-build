@@ -1,5 +1,7 @@
 import DeckHandler from "../helpers/DeckHandler.js";
 import Slots from "../helpers/Slots.js";
+import io from 'socket.io-client';
+
 export default class Game extends Phaser.Scene {
 
   constructor() {
@@ -32,6 +34,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
 
+    this.socket = io();
     this.slots = new Slots(this);
     this.playerADeckHandler = new DeckHandler(this);
     this.playerBDeckHandler = new DeckHandler(this);
