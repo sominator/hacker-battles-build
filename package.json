@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "description": "A Phaser 3 Project Template",
   "main": "src/index.js",
+  "proxy": "http://localhost:3000",
   "scripts": {
     "build": "webpack --config webpack/prod.js ",
     "start": "webpack-dev-server --config webpack/base.js --open"

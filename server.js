@@ -7,6 +7,6 @@ io.on('connection', function (socket) {
   });
 });
 
-const port = 8080;
+const port = 3000;
 io.listen(port);
 console.log('Listening on port', port);
