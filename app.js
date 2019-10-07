@@ -11,9 +11,9 @@ const less = require('koa-less2x')
 
 const index = require('./routes/index')
 
-app.io.on('connection', (s) => {
-    console.log('connected');
-})
+const Server = require('./server/server');
+
+new Server(app.io);
 
 // error handler
 onerror(app)
