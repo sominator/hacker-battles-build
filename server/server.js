@@ -24,8 +24,8 @@ function Server (io) {
 
     playerDecks: {
 
-      A: ["boolean", "double", "host", "ping", "scrape"],
-      B: ["boolean", "double", "host", "ping", "scrape"]
+      A: [],
+      B: []
 
     },
 
@@ -51,45 +51,6 @@ function Server (io) {
     }
 
   };
-
-  let deckHandler = function (deck) {
-
-    let shuffle = function (deck) {
-
-      for (let i = deck.length - 1; i > 0; i--) {
-
-        let j = Math.floor(Math.random() * i);
-
-        let k = deck[i];
-
-        deck[i] = deck[j];
-
-        deck[j] = k;
-
-      }
-
-      return deck;
-
-    }
-
-    let shuffledDeck = shuffle(deck);
-
-    let drawCard = () => {
-
-      let topCard = shuffledDeck.shift();
-
-      if (shuffledDeck.length === 0) {
-
-        shuffledDeck = shuffle(["boolean", "double", "host", "ping", "scrape"]);
-
-      };
-
-      return topCard;
-    }
-
-    return drawCard();
-
-  }
 
   io.on('connection', function (socket) {
 
@@ -121,17 +82,15 @@ function Server (io) {
 
     socket.on('cardPlayed', function (gameObject) {
 
-      socket.emit('cardPlayed', gameObject);
+      io.emit('cardPlayed', gameObject);
 
     });
 
     socket.on('initialize', function () {
 
-      for (let i = 0; i < 5; i++) {
+      gameInfo.gameState = "Compile";
 
-        socket.emit('drawCards', deckHandler(gameInfo.playerDecks.A), deckHandler(gameInfo.playerDecks.B), i)
-
-      }
+      io.emit('initialized', gameInfo.gameState);
 
     });
 

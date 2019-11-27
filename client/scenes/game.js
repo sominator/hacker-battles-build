@@ -214,34 +214,18 @@ export default class Game extends Phaser.Scene {
 
     });
 
-    this.io.on('drawCards', function (cardA, cardB, i) {
+    this.io.on('initialized', function (gameState) {
 
-      let cardify = (card) => {
+      console.log("Initialized");
 
-        switch (card) {
-          case "boolean":
-          card = new Boolean(self);
-          break;
-          case "double":
-          card = new Double(self);
-          break;
-          case "host":
-          card = new Host(self);
-          break;
-          case "ping":
-          card = new Ping(self);
-          break;
-          case "scrape":
-          card = new Scrape(self);
-          break;
-        }
+      self.gameState = gameState;
 
-        return card;
+      for (let i = 0; i < 5; i++) {
+
+        self.playerAHand.push(self.playerADeckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
+        self.playerBHand.push(self.playerBDeckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
 
       }
-
-      self.playerAHand.push(cardify(cardA).render(135 + (i * 170), 825, "playerACard"));
-      self.playerBHand.push(cardify(cardB).render(815 - (i * 170), 155, "playerBCard"));
 
     })
 
@@ -379,7 +363,7 @@ export default class Game extends Phaser.Scene {
 
     this.input.on('drop', function(pointer, gameObject, dropZone) {
 
-      if (dropZone.data.values.turn === self.turnOrder && !gameObject.data.values.played && ((gameObject.data.values.type === 'playerACard' && dropZone.data.values.type === 'playerASlot') || (gameObject.data.values.type === 'playerBCard' && dropZone.data.values.type === 'playerBSlot'))) {
+      if (dropZone.data.values.turn === self.turnOrder && !gameObject.data.values.played && ((gameObject.data.values.type === 'playerACard' && dropZone.data.values.type === 'playerASlot' && self.playerType === "playerA") || (gameObject.data.values.type === 'playerBCard' && dropZone.data.values.type === 'playerBSlot' && self.playerType === "playerB"))) {
 
         if (self.shiftKey.isDown) {
 
