@@ -7,7 +7,7 @@ import Scrape from "./cards/Scrape.js";
 
 export default class DeckHandler {
 
-  constructor (scene) {
+  constructor (scene, decker) {
 
     this.deck = Phaser.Math.RND.shuffle([new Boolean(scene), new Double(scene), new Host(scene), new Ping(scene), new Scrape(scene)]);
 

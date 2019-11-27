@@ -1,5 +1,13 @@
 import DeckHandler from "../helpers/DeckHandler.js";
 import Slots from "../helpers/Slots.js";
+import Boolean from "../helpers/cards/Boolean.js";
+import Double from "../helpers/cards/Double.js";
+import Host from "../helpers/cards/Host.js";
+import Inactive from "../helpers/cards/Inactive.js";
+import Ping from "../helpers/cards/Ping.js";
+import Scrape from "../helpers/cards/Scrape.js";
+let IO = require('socket.io-client')
+
 
 export default class Game extends Phaser.Scene {
 
@@ -33,7 +41,10 @@ export default class Game extends Phaser.Scene {
 
   create() {
 
+    //set up game variables
+
     this.slots = new Slots(this);
+    this.playerType;
     this.playerADeckHandler = new DeckHandler(this);
     this.playerBDeckHandler = new DeckHandler(this);
     this.playerAHand = [];
@@ -42,16 +53,16 @@ export default class Game extends Phaser.Scene {
     this.playerBProgram = [];
     this.playerAYard = [];
     this.playerBYard = [];
-    this.turnOrder = 0; //tracks number of turns, with a maximum of 10 turns per round
-    this.gameState = "Initialize"; //tracks the three game states of Initialize {}, Compile {}, and Execute {}
-    this.playerABP = 0; //stores player's BP
-    this.playerBBP = 0; //stores opponent's BP
+    this.turnOrder; //tracks number of turns, with a maximum of 10 turns per round
+    this.gameState; //tracks the three game states of Initialize {}, Compile {}, and Execute {}
+    this.playerABP; //stores player's BP
+    this.playerBBP; //stores opponent's BP
     this.playerABPActive = true; //determines whether opponent is able to collect BP during a round
     this.playerBBPActive = true; //determines whether player is able to collect BP during a round
     this.playerABPMultiplier = 1; //stores player's BP multiplier, from a card such as Double ()
     this.playerBBPMultiplier = 1; //stores opponent's BP multiplier, from a card such as Double ()
-    this.playerAVariables = 0; //stores player's number of variables
-    this.playerBVariables = 0; //stores opponent's number of variables
+    this.playerAVariables; //stores player's number of variables
+    this.playerBVariables; //stores opponent's number of variables
     this.variablesActive = true; //determines whether players are able to accrue variables during a round
     this.playerACompileBP = 0; //stores amount of BP that the player will collect during the Execute {} phase
     this.playerBCompileBP = 0; //stores amount of BP that the opponent will collect during the Execute {} phase
@@ -149,6 +160,97 @@ export default class Game extends Phaser.Scene {
 
     this.add.text(1150, 375, ["Press Escape to view the instructions."]).setFontSize(14).setFontFamily('Trebuchet MS');
 
+    //store this as a variable for scope within socket and interactivity functions
+
+    let self = this;
+
+    //set up socket functionality
+
+    this.io = new IO()
+
+    this.io.on('connect', function() {
+
+        console.log('socket.io connected')
+
+    })
+
+    this.io.on('disconnect', function() {
+
+        setTimeout(function() {
+
+            window.location.reload(true)
+
+        }, 1500)
+
+    })
+
+    this.io.on('playerID', function(socketID) {
+
+      console.log(socketID);
+
+    });
+
+    this.io.on('playerType', function(playerType) {
+
+      self.playerType = playerType;
+
+      console.log(self.playerType);
+
+    })
+
+    this.io.on('gameInfo', function(gameInfo) {
+
+      self.playerABP = gameInfo.playerBP.A;
+
+      self.playerBBP = gameInfo.playerBP.B;
+
+      self.playerAVariables = gameInfo.playerVariables.A;
+
+      self.playerBVariables = gameInfo.playerVariables.B;
+
+      self.gameState = gameInfo.gameState;
+
+      self.turnOrder = gameInfo.turnOrder;
+
+    });
+
+    this.io.on('drawCards', function (cardA, cardB, i) {
+
+      let cardify = (card) => {
+
+        switch (card) {
+          case "boolean":
+          card = new Boolean(self);
+          break;
+          case "double":
+          card = new Double(self);
+          break;
+          case "host":
+          card = new Host(self);
+          break;
+          case "ping":
+          card = new Ping(self);
+          break;
+          case "scrape":
+          card = new Scrape(self);
+          break;
+        }
+
+        return card;
+
+      }
+
+      self.playerAHand.push(cardify(cardA).render(135 + (i * 170), 825, "playerACard"));
+      self.playerBHand.push(cardify(cardB).render(815 - (i * 170), 155, "playerBCard"));
+
+    })
+
+    this.io.on('cardPlayed', function(gameObject) {
+
+      console.log(gameObject);
+
+    })
+
     //switch scene to Instructions upon ESC keydown
 
     this.input.keyboard.on('keydown-ESC', function(event) {
@@ -158,10 +260,6 @@ export default class Game extends Phaser.Scene {
     //prepare SHIFT key for playing inactive functions
 
     this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
-    //store this as a variable for scope within interactivity functions
-
-    let self = this;
 
     //handle display of card information or console text tint upon mouseover
 
@@ -236,26 +334,32 @@ export default class Game extends Phaser.Scene {
 
     this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
 
-      gameObject.x = dragX;
-      gameObject.y = dragY;
+      if ((self.playerType === "playerA" && gameObject.data.values.type === "playerACard") || (self.playerType === "playerB" && gameObject.data.values.type === "playerBCard")) {
+
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+
+      }
 
     }, this)
 
     this.input.on('dragstart', function(pointer, gameObject) {
 
-      if (gameObject.data.values.type === "playerACard") {
+      if (self.playerType === "playerA" && gameObject.data.values.type === "playerACard") {
 
           gameObject.setTint(0x00ffff);
 
-      } else {
+          gameObject.setScale(0.19, 0.19);
+
+      } else if (self.playerType === "playerB" && gameObject.data.values.type === "playerBCard") {
 
         gameObject.setTint(0xff69b4);
 
+        gameObject.setScale(0.19, 0.19);
+
       }
 
-
       this.children.bringToTop(gameObject);
-      gameObject.setScale(0.19, 0.19);
 
     }, this);
 
@@ -303,6 +407,8 @@ export default class Game extends Phaser.Scene {
         dropZone.setData("active", true);
         gameObject.data.values.onCompile(dropZone, gameObject);
 
+        self.io.emit("cardPlayed", gameObject);
+
       }
 
       else {
@@ -316,12 +422,7 @@ export default class Game extends Phaser.Scene {
 
     this.initializeText.on('pointerdown', function (pointer, gameObject) {
 
-      for (let i = 0; i < 5; i++) {
-
-          self.playerAHand.push(self.playerADeckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
-          self.playerBHand.push(self.playerBDeckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
-
-        }
+      self.io.emit("initialize");
 
       self.consoleTextArray = ["Refer to this space for Hacker Battle info.", ""];
 

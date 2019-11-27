@@ -1,6 +1,6 @@
 import Card from "./Card.js";
 
-export default class Inactive extends Card {
+export default class Boolean extends Card {
 
     constructor (scene) {
 
