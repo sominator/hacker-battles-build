@@ -216,22 +216,87 @@ export default class Game extends Phaser.Scene {
 
     this.io.on('initialized', function (gameState) {
 
-      console.log("Initialized");
-
       self.gameState = gameState;
 
-      for (let i = 0; i < 5; i++) {
+      if (self.playerType === "playerA") {
 
-        self.playerAHand.push(self.playerADeckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
-        self.playerBHand.push(self.playerBDeckHandler.drawCard().render(815 - (i * 170), 155, "playerBCard"));
+        for (let i = 0; i < 5; i++) {
+
+          self.playerAHand.push(self.playerADeckHandler.drawCard().render(135 + (i * 170), 825, "playerACard"));
+
+        };
+
+        self.io.emit("playerAHandDealt", self.playerAHand);
+
+      }
+
+        else {
+
+          for (let i = 0; i < 5; i++) {
+
+            self.playerBHand.push(self.playerBDeckHandler.drawCard().render(135 + (i * 170), 825, "playerBCard"));
+
+          }
+
+        self.io.emit("playerBHandDealt", self.playerBHand);
 
       }
 
     })
 
-    this.io.on('cardPlayed', function(gameObject) {
+    this.io.on('playerAHandDealt', function () {
 
-      console.log(gameObject);
+      if (self.playerType === "playerB") {
+
+        for (let i = 0; i < 5; i++) {
+
+          self.playerAHand.push(self.add.image(815 - (i * 170), 155, "cyanback").setScale(0.3, 0.3));
+
+        }
+
+      }
+
+    })
+
+    this.io.on('playerBHandDealt', function () {
+
+      if (self.playerType === "playerA") {
+
+        for (let i = 0; i < 5; i++) {
+
+          self.playerBHand.push(self.add.image(815 - (i * 170), 155, "magentaback").setScale(0.3, 0.3));
+
+        }
+
+      }
+
+    })
+
+    this.io.on('playerACardPlayed', function(gameObject, turnOrder) {
+
+      self.turnOrder = turnOrder;
+
+      if (self.playerType === "playerB") {
+
+        self.playerAHand[0].destroy();
+
+        self.playerAHand.shift();
+
+      }
+
+    })
+
+    this.io.on('playerBCardPlayed', function(gameObject, turnOrder) {
+
+      self.turnOrder = turnOrder;
+
+      if (self.playerType === "playerA") {
+
+        self.playerBHand[0].destroy();
+
+        self.playerBHand.shift();
+
+      }
 
     })
 
@@ -391,7 +456,15 @@ export default class Game extends Phaser.Scene {
         dropZone.setData("active", true);
         gameObject.data.values.onCompile(dropZone, gameObject);
 
-        self.io.emit("cardPlayed", gameObject);
+        if (self.playerType === "playerA") {
+
+          self.io.emit("playerACardPlayed", gameObject);
+
+        } else if (self.playerType === "playerB") {
+
+          self.io.emit("playerBCardPlayed", gameObject);
+
+        }
 
       }
 

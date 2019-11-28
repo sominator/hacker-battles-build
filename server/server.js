@@ -4,6 +4,8 @@ function Server (io) {
 
   let gameInfo = {
 
+    numberOfPlayers: 0,
+
     playerBP: {
 
       A: 0,
@@ -54,17 +56,21 @@ function Server (io) {
 
   io.on('connection', function (socket) {
 
+    console.log(gameInfo.numberOfPlayers);
+
+    gameInfo.numberOfPlayers++;
+
     let socketID = socket.id;
 
     players[socketID] = {
 
       playerID: socketID,
 
-      playerType: ""
+      playerType: "playerA"
 
     };
 
-    if (Object.entries(players).length === 1) {
+    if (gameInfo.numberOfPlayers === 1) {
 
       players[socketID][1] = "playerA";
 
@@ -80,12 +86,6 @@ function Server (io) {
 
     socket.emit('playerType', players[socketID][1]);
 
-    socket.on('cardPlayed', function (gameObject) {
-
-      io.emit('cardPlayed', gameObject);
-
-    });
-
     socket.on('initialize', function () {
 
       gameInfo.gameState = "Compile";
@@ -94,9 +94,43 @@ function Server (io) {
 
     });
 
+    socket.on('playerAHandDealt', function (playerAHand) {
+
+      gameInfo.playerHands.A.push(playerAHand);
+
+      io.emit('playerAHandDealt');
+
+    })
+
+    socket.on('playerBHandDealt', function (playerBHand) {
+
+      gameInfo.playerHands.B.push(playerBHand);
+
+      io.emit('playerBHandDealt');
+
+    })
+
+    socket.on('playerACardPlayed', function (gameObject) {
+
+      gameInfo.turnOrder++;
+
+      io.emit('playerACardPlayed', gameObject, gameInfo.turnOrder);
+
+    });
+
+    socket.on('playerBCardPlayed', function (gameObject) {
+
+      gameInfo.turnOrder++;
+
+      io.emit('playerBCardPlayed', gameObject, gameInfo.turnOrder);
+
+    });
+
     socket.on('disconnect', function () {
 
       delete players[socketID];
+
+      gameInfo.numberOfPlayers = 0;
 
       io.emit('disconnect', socketID);
 
