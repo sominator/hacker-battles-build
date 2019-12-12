@@ -1,0 +1,2 @@
+C:\Users\Som\coding\hacker-battles-build\obj\Debug\FromExistingCode1.njsprojAssemblyReference.cache
+C:\Users\Som\coding\hacker-battles-build\bin\Microsoft.NodejsTools.WebRole.dll

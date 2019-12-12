@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{53f10ffa-5c1a-4246-8a89-d83c883443b6}</ProjectGuid>
+        <ProjectHome>.</ProjectHome>
+        <ProjectView>ShowAllFiles</ProjectView>
+        <StartupFile>app.js</StartupFile>
+        <WorkingDirectory>.</WorkingDirectory>
+        <OutputPath>.</OutputPath>
+        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">16.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+    <ItemGroup>
+        <Content Include="jconfig.json" />
+        <Content Include="package-lock.json" />
+        <Content Include="package.json" />
+        <Content Include="README.md" />
+        <Content Include="app.js" />
+        <Content Include="client\main.js" />
+        <Content Include="routes\index.js" />
+        <Content Include="server\server.js" />
+        <Content Include="views\error.pug" />
+        <Content Include="views\index.pug" />
+        <Content Include="views\layout.pug" />
+        <Content Include="client\helpers\DeckHandler.js" />
+        <Content Include="client\helpers\Slots.js" />
+        <Content Include="client\scenes\game.js" />
+        <Content Include="client\scenes\instructions.js" />
+        <Content Include="client\scenes\title.js" />
+        <Content Include="client\helpers\cards\Boolean.js" />
+        <Content Include="client\helpers\cards\Card.js" />
+        <Content Include="client\helpers\cards\Double.js" />
+        <Content Include="client\helpers\cards\Host.js" />
+        <Content Include="client\helpers\cards\Inactive.js" />
+        <Content Include="client\helpers\cards\Ping.js" />
+        <Content Include="client\helpers\cards\Scrape.js" />
+        <Content Include="public\assets\Cyan_Back3x.png" />
+        <Content Include="public\assets\Cyan_Boolean3x.png" />
+        <Content Include="public\assets\Cyan_Defrag3x.png" />
+        <Content Include="public\assets\Cyan_Double3x.png" />
+        <Content Include="public\assets\Cyan_Echo3x.png" />
+        <Content Include="public\assets\Cyan_Firewall3x.png" />
+        <Content Include="public\assets\Cyan_Float3x.png" />
+        <Content Include="public\assets\Cyan_Glitch3x.png" />
+        <Content Include="public\assets\Cyan_Handshake3x.png" />
+        <Content Include="public\assets\Cyan_Host3x.png" />
+        <Content Include="public\assets\Cyan_Ping3x.png" />
+        <Content Include="public\assets\Cyan_Probe3x.png" />
+        <Content Include="public\assets\Cyan_ReInitialize3x.png" />
+        <Content Include="public\assets\Cyan_Scrape3x.png" />
+        <Content Include="public\assets\Cyan_Splice3x.png" />
+        <Content Include="public\assets\Cyan_Turnkey3x.png" />
+        <Content Include="public\assets\EntromancyHB_Logo_White.png" />
+        <Content Include="public\assets\HackerBattles_Card-Mockup.png" />
+        <Content Include="public\assets\HackerBattles_Cyan-Deck.png" />
+        <Content Include="public\assets\HackerBattles_Magenta-Deck.png" />
+        <Content Include="public\assets\Magenta_Back3x.png" />
+        <Content Include="public\assets\Magenta_Boolean3x.png" />
+        <Content Include="public\assets\Magenta_Defrag3x.png" />
+        <Content Include="public\assets\Magenta_Double3x.png" />
+        <Content Include="public\assets\Magenta_Echo3x.png" />
+        <Content Include="public\assets\Magenta_Firewall3x.png" />
+        <Content Include="public\assets\Magenta_Float3x.png" />
+        <Content Include="public\assets\Magenta_Glitch3x.png" />
+        <Content Include="public\assets\Magenta_Handshake3x.png" />
+        <Content Include="public\assets\Magenta_Host3x.png" />
+        <Content Include="public\assets\Magenta_Ping3x.png" />
+        <Content Include="public\assets\Magenta_Probe3x.png" />
+        <Content Include="public\assets\Magenta_ReInitialize3x.png" />
+        <Content Include="public\assets\Magenta_Scrape3x.png" />
+        <Content Include="public\assets\Magenta_Splice3x.png" />
+        <Content Include="public\assets\Magenta_Turnkey3x.png" />
+        <Content Include="public\assets\Objective_10BP3x.png" />
+        <Content Include="public\assets\Objective_20Variables3x.png" />
+        <Content Include="public\assets\Objective_5InactiveFunctions3x.png" />
+        <Content Include="public\assets\Objective_Back3x.png" />
+        <Content Include="public\assets\Objective_Exchange4x3x.png" />
+        <Content Include="public\assets\Objective_Execute5x3x.png" />
+        <Content Include="public\assets\Specialization_Ace3x.png" />
+        <Content Include="public\assets\Specialization_Firestorm3x.png" />
+        <Content Include="public\assets\Specialization_Interrupt3x.png" />
+        <Content Include="public\assets\Specialization_Overload3x.png" />
+        <Content Include="public\assets\Specialization_Reset3x.png" />
+        <Content Include="public\css\style.css" />
+        <Content Include="public\js\main.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="bin" />
+        <Folder Include="client" />
+        <Folder Include="client\helpers" />
+        <Folder Include="client\helpers\cards" />
+        <Folder Include="client\scenes" />
+        <Folder Include="public" />
+        <Folder Include="public\assets" />
+        <Folder Include="public\css" />
+        <Folder Include="public\js" />
+        <Folder Include="routes" />
+        <Folder Include="server" />
+        <Folder Include="views" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+            <WebProjectProperties>
+              <UseIIS>False</UseIIS>
+              <AutoAssignPort>True</AutoAssignPort>
+              <DevelopmentServerPort>0</DevelopmentServerPort>
+              <DevelopmentServerVPath>/</DevelopmentServerVPath>
+              <IISUrl>http://localhost:48022/</IISUrl>
+              <NTLMAuthentication>False</NTLMAuthentication>
+              <UseCustomServer>True</UseCustomServer>
+              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+            </WebProjectProperties>
+          </FlavorProperties>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+            <WebProjectProperties>
+              <StartPageUrl>
+              </StartPageUrl>
+              <StartAction>CurrentPage</StartAction>
+              <AspNetDebugging>True</AspNetDebugging>
+              <SilverlightDebugging>False</SilverlightDebugging>
+              <NativeDebugging>False</NativeDebugging>
+              <SQLDebugging>False</SQLDebugging>
+              <ExternalProgram>
+              </ExternalProgram>
+              <StartExternalURL>
+              </StartExternalURL>
+              <StartCmdLineArguments>
+              </StartCmdLineArguments>
+              <StartWorkingDirectory>
+              </StartWorkingDirectory>
+              <EnableENC>False</EnableENC>
+              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+            </WebProjectProperties>
+          </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
+</Project>
