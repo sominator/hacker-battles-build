@@ -6,12 +6,15 @@ import Instructions from "./scenes/instructions.js";
 
 let config = {
     type: Phaser.AUTO,
-    width: 1800,
-    height: 1000,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        width: 1800,
+        height: 1000
+    },
     scene: [
-      Title,
-      Game,
-      Instructions
+        Title,
+        Game,
+        Instructions
     ]
 };
 

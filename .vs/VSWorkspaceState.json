@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin",
+    "\\client",
+    "\\client\\helpers",
+    "\\client\\helpers\\cards",
+    "\\client\\scenes",
+    "\\routes",
+    "\\server",
+    "\\views"
+  ],
+  "SelectedNode": "\\client\\helpers\\DeckHandler.js",
+  "PreviewInSolutionExplorer": false
+}
